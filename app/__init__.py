@@ -42,6 +42,7 @@ def create_app(config_name):
     
     #configuring uploadset
     configure_uploads(app,photos)
+
     #Initialixing the mail app
     mail.init_app(app)
 
