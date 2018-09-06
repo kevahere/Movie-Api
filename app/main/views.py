@@ -3,10 +3,10 @@ from . import main
 from ..request import get_movies,get_movie,search_movie
 from .forms import ReviewForm, UpdateProfile
 from ..models import Review, User
-from flask_login import login_required
+from flask_login import login_required,current_user
 from .. import db,photos
 
-# Review = review.Review
+#Review = review.Review
 
 
 
@@ -56,7 +56,7 @@ def search(movie_name):
     return render_template('search.html',movies = searched_movies)    
 
 @main.route('/movie/review/new/<int:id>', methods = ['GET','POST'])
-@login_required
+
 def new_review(id):
     form = ReviewForm()
     movie = get_movie(id)
@@ -64,7 +64,10 @@ def new_review(id):
     if form.validate_on_submit():
         title = form.title.data
         review = form.review.data
-        new_review = Review(movie.id,title,movie.poster,review)
+
+        # Updated review instance
+        new_review = Review(movie_id=movie.id, movie_title=title, image_path=movie.poster, movie_review=review,
+                            user=current_user)
         new_review.save_review()
         return redirect(url_for('.movie',id = movie.id ))
 

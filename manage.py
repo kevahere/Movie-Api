@@ -1,7 +1,8 @@
 from app import create_app,db
 from flask_script import Manager,Server
-from app.models import User,Role
 from flask_migrate import Migrate,MigrateCommand
+from app.models import User,Role, Review
+
 # Creating app instance
 app = create_app('development')
 
@@ -10,14 +11,14 @@ manager.add_command('server',Server)
 
 migrate = Migrate(app,db)
 manager.add_command('db',MigrateCommand)
-# @manager.command
-# def test():
-#     '''
-#     Run the unit tests for the whole application.
-#     '''
-#     import unittest
-#     tests = unittest.TestLoader().discover('tests')
-#     unittest.TextTestRunner(verbosity=2).run(tests)
+@manager.command
+def test():
+    '''
+    Run the unit tests for the whole application.
+    '''
+    import unittest
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner(verbosity=2).run(tests)
 
 @manager.shell
 def make_shell_context():

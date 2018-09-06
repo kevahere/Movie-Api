@@ -5,8 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_uploads import UploadSet,configure_uploads,IMAGES
 from flask_mail import Mail
+from flask_simplemde import SimpleMDE
 
-
+simple = SimpleMDE()
 db = SQLAlchemy()
 bootstrap = Bootstrap()
 login_manager = LoginManager()
@@ -28,7 +29,8 @@ def create_app(config_name):
     bootstrap.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
-    
+    simple.init_app(app)
+
     # Registering the blueprint
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
